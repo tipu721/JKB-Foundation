@@ -52,8 +52,8 @@ export default class EmployeeList extends Component {
                                             <td>{employee.email}</td>
                                             <td>
                                                 <button className='brn btn-info'>Edit</button>
-                                                <button className='brn btn-danger'>Delete</button>
-                                                <button className='brn btn-info'>View</button>
+                                                <button style={{ marginLeft: '10px' }} className='brn btn-danger'>Delete</button>
+                                                <button style={{ marginLeft: '10px' }} className='brn btn-info'>View</button>
                                             </td>
                                         </tr>
                                 )
