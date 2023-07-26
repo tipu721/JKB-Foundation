@@ -21,6 +21,19 @@ export default class EmployeeList extends Component {
     }
 
     viewEmployee(id) {
+        this.props.history.push('/view-employee/${id}')
+
+    }
+
+    editEmployee(id) {
+
+        this.props.history.push('/add-employee/${id}')
+
+    }
+
+    deleteEmployee = (id) => {
+
+        EmployeeService.deleteEmployee(id)
 
     }
 
@@ -51,9 +64,9 @@ export default class EmployeeList extends Component {
                                             <td>{employee.lastName}</td>
                                             <td>{employee.email}</td>
                                             <td>
-                                                <button className='brn btn-info'>Edit</button>
-                                                <button style={{ marginLeft: '10px' }} className='brn btn-danger'>Delete</button>
-                                                <button style={{ marginLeft: '10px' }} className='brn btn-info'>View</button>
+                                                <button onClick={() => this.editEmployee(employee.id)} className='brn btn-info'>Edit</button>
+                                                <button style={{ marginLeft: '10px' }} onClick={() => this.deleteEmployee(employee.id)} className='brn btn-danger'>Delete</button>
+                                                <button style={{ marginLeft: '10px' }} onClick={() => this.viewEmployee(employee.id)} className='brn btn-info'>View</button>
                                             </td>
                                         </tr>
                                 )
