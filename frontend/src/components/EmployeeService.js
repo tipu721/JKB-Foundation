@@ -12,7 +12,7 @@ class EmployeeService {
     }
 
     deleteEmployee(id) {
-        return axios.delete(EMPLOYEE_API_BASE_URL + '/employee' + id)
+        return axios.delete(EMPLOYEE_API_BASE_URL + '/employee/' + id)
     }
 
 }

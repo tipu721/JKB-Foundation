@@ -13,30 +13,24 @@ export default class EmployeeList extends Component {
     }
 
     componentDidMount() {
-
         EmployeeService.getEmployees().then((res) => {
             this.setState({ employees: res.data });
         });
-
     }
 
     viewEmployee(id) {
         this.props.history.push('/view-employee/${id}')
-
     }
 
     editEmployee(id) {
-
         this.props.history.push('/add-employee/${id}')
-
     }
 
-    deleteEmployee = (id) => {
-
-        EmployeeService.deleteEmployee(id)
-
+    deleteEmployee(id) {
+        EmployeeService.deleteEmployee(id).then(res => {
+            this.setState({ employees: this.state.employees.filter(employee => employee.id !== id) })
+        })
     }
-
     render() {
         return (
             <div>
