@@ -7,27 +7,51 @@ export default class EmployeeAdd extends Component {
     super(props)
 
     this.state = {
+      id: this.props.match.params.id,
       firstName: '',
       lastName: '',
       email: ''
     }
   }
 
+  componentDidMount() {
+
+
+    if (this.state.id === '_add')
+      return
+    EmployeeService.getEmployee(this.state.id).then((res) => {
+      let employee = res.data;
+      this.setState({
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        email: employee.email
+      }
+      );
+    });
+  }
+
+
+
   saveOrUpdateEmployee = (e) => {
     e.preventDefault();
 
-    alert('You are adding a employee!')
-
-    var employee = {
+    let employee = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email
     }
 
-    EmployeeService.addEmployee(employee);
-    window.location = 'employees'
+    if (this.state.id === '_add') {
+      EmployeeService.addEmployee(employee);
+      window.location = '/employees'
 
+    }
 
+    else {
+      EmployeeService.updateEmployee(this.state.id, employee)
+      window.location = '/employees'
+
+    }
   }
 
   changeFirstNameHandler = (event) => {

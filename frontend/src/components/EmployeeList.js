@@ -13,8 +13,22 @@ export default class EmployeeList extends Component {
     }
 
 
+
+    addEmployee() {
+        //this.props.history.push('/add-employee/_add');
+
+        window.location = '/add-employee/_add'
+    }
+
+
+    editEmployee(id) {
+        //this.props.history.push(`/add-employee/${id}`);
+        window.location = `/add-employee/${id}`
+    }
+
     viewEmployee(id) {
-        this.props.history.push(`/view-employee/${id}`);
+        //this.props.history.push(`/view-employee/${id}`); //dont hit
+        window.location = `/view-employee/${id}`
     }
 
     deleteEmployee(id) {
@@ -34,6 +48,11 @@ export default class EmployeeList extends Component {
         return (
             <div>
                 <h2 className="text-center">Employees List</h2>
+
+                <div className="row">
+                    <button className="btn btn-primary" onClick={this.addEmployee}> Add Employee</button>
+                </div>
+
 
                 <div className='row'>
 

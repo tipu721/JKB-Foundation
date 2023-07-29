@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EmployeeController {
@@ -18,6 +19,7 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     Employee addEmployee(@RequestBody Employee employee) {
+
         return employeeRepository.save(employee);
     }
 
@@ -36,6 +38,20 @@ public class EmployeeController {
     @GetMapping("/employee/{id}")
     Optional<Employee> getEmployee(@PathVariable Long id) {
         return employeeRepository.findById(id);
+    }
+
+    @PutMapping("/employee/{id}")
+    Employee updateEmployee( @PathVariable Long id, @RequestBody Employee employee) {
+        Employee newEmployee = employeeRepository.findById(id)
+                .orElseThrow();
+        newEmployee.setFirstName(employee.getFirstName());
+        newEmployee.setLastName(employee.getLastName());
+        newEmployee.setEmail(employee.getEmail());
+
+       return employeeRepository.save(newEmployee);
+
+      //  return  newEmployee;
+
     }
 
 }
