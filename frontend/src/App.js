@@ -1,16 +1,19 @@
 
 import './App.css';
-import EmployeeAdd from './components/EmployeeAdd';
-import EmployeeList from './components/EmployeeList';
+import EmployeeAdd from './components/AddEmployee';
+import EmployeeList from './components/ListEmployee';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import EmployeeView from './components/EmployeeView';
+import EmployeeView from './components/ViewEmployee';
 import Practice from './practice/Practice';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <div>
       <Router>
         <div className="container">
+          <Header />
           <Switch>
             <Route path="/" exact component={EmployeeList}></Route>
             <Route path="/employees" component={EmployeeList}></Route>
@@ -19,6 +22,9 @@ function App() {
             <Route path="/practice" component={Practice}></Route>
 
           </Switch>
+
+          <div className='' > <Footer /></div>
+
 
         </div>
 

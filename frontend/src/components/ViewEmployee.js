@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import EmployeeService from './EmployeeService'
-class EmployeeView extends Component {
+import EmployeeService from '../services/EmployeeService'
+class ViewEmployee extends Component {
     constructor(props) {
         super(props)
 
@@ -23,7 +23,7 @@ class EmployeeView extends Component {
         return (
             <div>
                 <h3 className="text-center"> View Employee Details</h3>
-                <div className="card-body">
+                <div className='card-body'>
                     <div className="row">
                         <label> Employee First Name: </label>
                         <div> {this.state.employee.firstName}</div>
@@ -43,4 +43,4 @@ class EmployeeView extends Component {
     }
 }
 
-export default EmployeeView
+export default ViewEmployee

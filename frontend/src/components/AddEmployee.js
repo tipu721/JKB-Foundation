@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import EmployeeService from './EmployeeService';
+import EmployeeService from '../services/EmployeeService'
 
-export default class EmployeeAdd extends Component {
+export default class AddEmployee extends Component {
 
   constructor(props) {
     super(props)
@@ -9,7 +9,13 @@ export default class EmployeeAdd extends Component {
     this.state = {
       id: this.props.match.params.id,
       firstName: '',
-      lastName: '',
+      _lastName: '',
+      get lastName() {
+        return this._lastName
+      },
+      set lastName(value) {
+        this._lastName = value
+      },
       email: ''
     }
   }

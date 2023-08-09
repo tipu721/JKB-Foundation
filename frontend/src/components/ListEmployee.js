@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import EmployeeService from './EmployeeService';
+import EmployeeService from '../services/EmployeeService';
 
-export default class EmployeeList extends Component {
+export default class ListEmployee extends Component {
 
     constructor(props) {
         super(props)

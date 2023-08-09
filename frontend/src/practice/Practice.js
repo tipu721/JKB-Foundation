@@ -20,7 +20,7 @@ export default class Practice extends Component {
     render() {
         return (
             <div>
-                <lebel>input1</lebel>
+                <lebel>input1</lebel>4
                 <input type='text'></input><br />
                 <lebel>input2</lebel>
                 <input type='text'></input><br />
