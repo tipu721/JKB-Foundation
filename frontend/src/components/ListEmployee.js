@@ -1,95 +1,65 @@
-import React, { Component } from 'react';
-import EmployeeService from '../services/EmployeeService';
+import axios from 'axios';
+import React from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default class ListEmployee extends Component {
+export default function ListEmployee() {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            employees: []
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    loadEmployees();
+  }, [])
 
-        }
+  const loadEmployees = async () => {
+    const result = await axios.get("http://localhost:8080/employees");
+    setEmployees(result.data);
+  }
 
-    }
+  return (
+    <div className="container">
+      <div className="py-4">
+        <table className="table border shadow">
+          <thead>
+            <tr>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee, index) => (
+              <tr>
+                <td>{employee.firstName}</td>
+                <td>{employee.lastName}</td>
+                <td>{employee.email}</td>
+                <td>
+                  <Link
+                    className="btn btn-primary mx-2"
+                    to={`/viewuser/${employee.id}`}
+                  >
+                    View
+                  </Link>
 
+                  <Link
+                    className="btn btn-outline-primary mx-2"
+                    to={`/edituser/${employee.id}`}
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className="btn btn-danger mx-2"
+                  // onClick={() => deleteUser(employee.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
 
-
-    addEmployee() {
-        //this.props.history.push('/add-employee/_add');
-
-        window.location = '/add-employee/_add'
-    }
-
-
-    editEmployee(id) {
-        //this.props.history.push(`/add-employee/${id}`);
-        window.location = `/add-employee/${id}`
-    }
-
-    viewEmployee(id) {
-        //this.props.history.push(`/view-employee/${id}`); //dont hit
-        window.location = `/view-employee/${id}`
-    }
-
-    deleteEmployee(id) {
-        EmployeeService.deleteEmployee(id).then(res => {
-            this.setState({ employees: this.state.employees.filter(employee => employee.id !== id) })
-        })
-
-    }
-
-    componentDidMount() {
-        EmployeeService.getEmployees().then((res) => {
-            this.setState({ employees: res.data })
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <h2 className="text-center">Employees List</h2>
-
-                <div className="row">
-                    <button className="btn btn-primary" onClick={this.addEmployee}> Add Employee</button>
-                </div>
-
-
-                <div className='row'>
-
-                    <table className="table table-striped table-bordered">
-
-                        <thead>
-                            <tr>
-                                <th> Employee First Name</th>
-                                <th> Employee Last Name</th>
-                                <th> Employee Email Id</th>
-                                <th> Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.employees.map(
-
-                                    employee =>
-                                        <tr key={employee.id}>
-                                            <td>{employee.firstName}</td>
-                                            <td>{employee.lastName}</td>
-                                            <td>{employee.email}</td>
-                                            <td>
-                                                <button onClick={() => this.editEmployee(employee.id)} className='brn btn-info'>Edit</button>
-                                                <button style={{ marginLeft: '10px' }} onClick={() => this.deleteEmployee(employee.id)} className='brn btn-danger'>Delete</button>
-                                                <button style={{ marginLeft: '10px' }} onClick={() => this.viewEmployee(employee.id)} className='brn btn-info'>View</button>
-                                            </td>
-                                        </tr>
-                                )
-
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-
-        )
-    }
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
 }
