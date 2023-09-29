@@ -2,11 +2,14 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useParams } from 'react-router-dom';
 
 export default function ListEmployee() {
 
   const [employees, setEmployees] = useState([]);
+
+  const { id } = useParams();
+
   useEffect(() => {
     loadEmployees();
   }, [])
@@ -16,6 +19,12 @@ export default function ListEmployee() {
     setEmployees(result.data);
   }
 
+  const deleteEmployee = async (id) => {
+
+    await axios.delete(`http://localhost:8080/employee/${id}`);
+    loadEmployees();
+
+  }
   return (
     <div className="container">
       <div className="py-4">
@@ -36,20 +45,20 @@ export default function ListEmployee() {
                 <td>
                   <Link
                     className="btn btn-primary mx-2"
-                    to={`/viewuser/${employee.id}`}
+                    to={`/view-employee/${employee.id}`}
                   >
                     View
                   </Link>
 
                   <Link
                     className="btn btn-outline-primary mx-2"
-                    to={`/edituser/${employee.id}`}
+                    to={`/edit-employee/${employee.id}`}
                   >
                     Edit
                   </Link>
                   <button
                     className="btn btn-danger mx-2"
-                  // onClick={() => deleteUser(employee.id)}
+                    onClick={() => deleteEmployee(employee.id)}
                   >
                     Delete
                   </button>

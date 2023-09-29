@@ -1,46 +1,54 @@
-import React, { Component } from 'react'
-import EmployeeService from '../services/EmployeeService'
-class ViewEmployee extends Component {
-    constructor(props) {
-        super(props)
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
 
-        this.state = {
-            id: this.props.match.params.id,
-            employee: {}
+export default function ViewEmployee() {
+    const [employee, setEmployee] = useState({
+        firstName: "",
+        lastName: "",
+        email: ""
+    });
 
-        }
+    const { id } = useParams();
+    useEffect(() => {
+        loadEmployee();
+    }, []);
 
+    const loadEmployee = async () => {
+        const result = await axios.get(`http://localhost:8080/employee/${id}`);
+        setEmployee(result.data);
     }
-    componentDidMount() {
-        EmployeeService.getEmployee(this.state.id).then(res => {
-            this.setState({ employee: res.data });
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
+                    <h2 className="text-center m-4">Employee Details</h2>
 
-
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <h3 className="text-center"> View Employee Details</h3>
-                <div className='card-body'>
-                    <div className="row">
-                        <label> Employee First Name: </label>
-                        <div> {this.state.employee.firstName}</div>
+                    <div className="card">
+                        <div className="card-header">
+                            Details of user id : {employee.id}
+                            <ul className="list-group list-group-flush">
+                                <li className="list-group-item">
+                                    <b>First Name:</b>
+                                    {employee.firstName
+                                    }
+                                </li>
+                                <li className="list-group-item">
+                                    <b>Last Name:</b>
+                                    {employee.lastName}
+                                </li>
+                                <li className="list-group-item">
+                                    <b>Email:</b>
+                                    {employee.email}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div className="row">
-                        <label> Employee Last Name: </label>
-                        <div> {this.state.employee.lastName}</div>
-                    </div>
-                    <div className="row">
-                        <label> Employee Email ID: </label>
-                        <div> {this.state.employee.email}</div>
-                    </div>
+                    <Link className="btn btn-primary my-2" to={"/"}>
+                        Back to Home
+                    </Link>
                 </div>
-
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default ViewEmployee

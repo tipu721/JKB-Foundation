@@ -1,100 +1,78 @@
-import React, { Component } from 'react'
-import EmployeeService from '../services/EmployeeService'
+import React from 'react'
+import axios from 'axios';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+export default function AddEmployee() {
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    email: ""
+  });
 
-export default class AddEmployee extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      id: this.props.match.params.id,
-      firstName: '',
-      _lastName: '',
-      get lastName() {
-        return this._lastName
-      },
-      set lastName(value) {
-        this._lastName = value
-      },
-      email: ''
-    }
-  }
-
-  componentDidMount() {
+  const { id } = useParams();
+  let navigate = useNavigate();
 
 
-    if (this.state.id === '_add')
-      return
-    EmployeeService.getEmployee(this.state.id).then((res) => {
-      let employee = res.data;
-      this.setState({
-        firstName: employee.firstName,
-        lastName: employee.lastName,
-        email: employee.email
-      }
-      );
-    });
-  }
+  const onInputChange = (e) => {
 
+    setEmployee({ ...employee, [e.target.name]: e.target.value });
+  };
 
-
-  saveOrUpdateEmployee = (e) => {
+  const onDataSubmit = async (e) => {
     e.preventDefault();
+    const result = await axios.post("http://localhost:8080/employee", employee);
+    navigate("/");
 
-    let employee = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email
-    }
-
-    if (this.state.id === '_add') {
-      EmployeeService.addEmployee(employee);
-      window.location = '/employees'
-
-    }
-
-    else {
-      EmployeeService.updateEmployee(this.state.id, employee)
-      window.location = '/employees'
-
-    }
   }
 
-  changeFirstNameHandler = (event) => {
-    this.setState({ firstName: event.target.value });
-  }
+  return (
+    <div className='container'>
+      <div className='row'>
+        <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
 
-  changeLastNameHandler = (event) => {
-    this.setState({ lastName: event.target.value });
-  }
+          <h2 className="text-center m-4">Add User</h2>
+          <form onSubmit={(e) => onDataSubmit(e)}>
+            <div className='mb-3'>
+              <label htmlFor='First Name' className='form-lebel'>First Name</label>
+              <input
+                type={'text'}
+                className='form-control'
+                placeholder='Enter Your First Name'
+                name='firstName'
+                value={employee.firstName}
+                onChange={(e) => onInputChange(e)}
+              ></input>
+              <label htmlFor='Last Name' className='form-lebel'>Last Name</label>
+              <input
+                type={'text'}
+                className='form-control'
+                placeholder='Enter Your LastS Name'
+                name='lastName'
+                value={employee.lastName}
+                onChange={(e) => onInputChange(e)}
+              ></input>
 
-  changeEmailHandler = (event) => {
-    this.setState({ email: event.target.value });
-  }
-  render() {
-    return (
-      <div>
-        <form>
-          <div className="form-group">
-            <label> First Name: </label>
-            <input placeholder="First Name" name="firstName" className="form-control"
-              value={this.state.firstName} onChange={this.changeFirstNameHandler} />
-          </div>
+              <label htmlFor='Email' className='form-lebel'>Email</label>
+              <input
+                type={'text'}
+                className='form-control'
+                placeholder='Enter Your Email'
+                name='email'
+                value={employee.email}
+                onChange={(e) => onInputChange(e)}
+              ></input>
+            </div>
 
-          <div className="form-group">
-            <label> Last Name: </label>
-            <input placeholder="Last Name" name="lastName" className="form-control"
-              value={this.state.lastName} onChange={this.changeLastNameHandler} />
-          </div>
+            <button type="submit" className="btn btn-outline-primary">
+              Submit
+            </button>
+            <Link className="btn btn-outline-danger mx-2" to="/">
+              Cancel
+            </Link>
 
-          <div className="form-group">
-            <label> Email : </label>
-            <input placeholder="Email" name="email" className="form-control"
-              value={this.state.email} onChange={this.changeEmailHandler} />
-          </div>
-          <button className="btn btn-success" onClick={this.saveOrUpdateEmployee}>Save</button>
-        </form>
+          </form>
+        </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
