@@ -8,7 +8,7 @@ export default function ListEmployee() {
 
   const [employees, setEmployees] = useState([]);
 
-  const { id } = useParams();
+
 
   useEffect(() => {
     loadEmployees();

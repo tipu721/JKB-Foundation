@@ -1,21 +1,42 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
 
-export default class UploadFile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const FileUpload = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
 
-            selectedFile: undefined,
-            currentFile: undefined,
-            process: 0,
-            message: "",
-            fileInfos: []
+    const fileChangedHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
 
+    const uploadHandler = async () => {
+        if (!selectedFile) {
+            alert('No file selected.');
+            console.error('No file selected.');
+            return;
         }
-    }
-    render() {
-        return (
-            <div>UploadFile</div>
-        )
-    }
-}
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            const response = await axios.post("http://localhost:8080/upload", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert(response.data);
+            console.log('File uploaded successfully:', response.data);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
+
+    return (
+        <div>
+            <input type="file" onChange={fileChangedHandler} />
+            <button onClick={uploadHandler}>Upload</button>
+        </div>
+    );
+};
+
+export default FileUpload;

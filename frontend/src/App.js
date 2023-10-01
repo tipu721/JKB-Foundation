@@ -10,6 +10,8 @@ import ViewEmployee from './components/ViewEmployee';
 import ListEmployee from './components/ListEmployee';
 import AddEmployee from './components/AddEmployee';
 import EditEmployee from './components/EditEmployee';
+import UploadFile from './components/UploadFile';
+import FileList from './components/FileList';
 
 
 
@@ -24,6 +26,8 @@ function App() {
             <Route exact path="/add-employee" element={<AddEmployee />} />
             <Route exact path="/edit-employee/:id" element={<EditEmployee />} />
             <Route exact path="/view-employee/:id" element={<ViewEmployee />} />
+            <Route exact path="/upload" element={<UploadFile />} />
+            <Route exact path="/getFiles" element={<FileList />} />
           </Routes>
 
           <div className='' > <Footer /></div>
