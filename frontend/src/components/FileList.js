@@ -14,9 +14,23 @@ export default function FileList() {
         setFiles(result.data);
     }
     const handleDownload = async (fileName) => {
-        alert(fileName);
-        const result = await axios.get(`http://localhost:8080/download/${fileName}`);
+        try {
+            const response = await fetch(`http://localhost:8080/download/${fileName}`); // Replace with your API endpoint
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
 
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName; // Use the specified file name
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading file: ', error);
+        }
     }
     return (
         <div>
