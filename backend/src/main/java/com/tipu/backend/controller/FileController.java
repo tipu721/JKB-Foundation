@@ -19,8 +19,13 @@ import java.util.Arrays;
 @RestController
 public class FileController {
 
+
+
     @PostMapping("/upload")
     String uploadFile(@RequestParam MultipartFile file){
+
+
+       // int a = 10/0;
         String filePath = System.getProperty("user.dir") + "/Uploads" + File.separator + file.getOriginalFilename();
         String fileUploadStatus;
 
