@@ -12,6 +12,7 @@ import AddEmployee from './components/AddEmployee';
 import EditEmployee from './components/EditEmployee';
 import UploadFile from './components/UploadFile';
 import FileList from './components/FileList';
+import EmailSendig from './messaging/EmailSendig';
 
 
 
@@ -28,6 +29,7 @@ function App() {
             <Route exact path="/view-employee/:id" element={<ViewEmployee />} />
             <Route exact path="/upload" element={<UploadFile />} />
             <Route exact path="/getFiles" element={<FileList />} />
+            <Route exact path="/send-email" element={<EmailSendig />} />
           </Routes>
 
           <div className='' > <Footer /></div>
