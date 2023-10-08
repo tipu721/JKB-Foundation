@@ -1,5 +1,7 @@
 package com.tipu.backend.controller;
 
+import com.tipu.backend.dao.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -76,5 +75,6 @@ public class FileController {
 
 
     }
+
 
 }
