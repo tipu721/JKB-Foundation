@@ -41,6 +41,10 @@ export default function ViewEmployee() {
                                     <b>Email:</b>
                                     {employee.email}
                                 </li>
+                                <li className="list-group-item">
+                                    <b>Department: </b>
+                                    {employee.department}
+                                </li>
                             </ul>
                         </div>
                     </div>
