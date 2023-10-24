@@ -1,6 +1,7 @@
 package com.tipu.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 @Entity
 public class Employee {
@@ -12,7 +13,8 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-    private String facultyId;
+    private Integer facultyId;
+    private Integer departmentId;
 
     public long getId() {
         return id;
@@ -46,11 +48,19 @@ public class Employee {
         this.email = email;
     }
 
-    public String getFacultyId() {
+    public Integer getFacultyId() {
         return facultyId;
     }
 
-    public void setFacultyId(String facultyId) {
+    public void setFacultyId(Integer facultyId) {
         this.facultyId = facultyId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 }

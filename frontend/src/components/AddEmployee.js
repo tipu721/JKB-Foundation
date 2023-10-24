@@ -11,22 +11,39 @@ export default function AddEmployee() {
     firstName: "",
     lastName: "",
     email: "",
-    facultyId: ""
+    facultyId: "",
+    departmentId: ""
   });
 
   const [faculties, setFaculties] = useState([]);
+  const [departmentList, setdepartmentList] = useState([]);
   useEffect(() => {
     loadFaculties();
   }, [])
+
   const loadFaculties = async () => {
     const result = await axios.get("http://localhost:8080/faculties");
     setFaculties(result.data);
   }
-  const onInputChange = (e) => {
 
+  const loadDepartmentList = async (facultyId) => {
+    console.log(facultyId);
+    const result = await axios.get("http://localhost:8080/departmentList", {
+      params: {
+        facultyId: facultyId
+      }
+    });
+    setdepartmentList(result.data);
+  }
+
+  const onInputChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
 
+  const onFacultyChange = async (e) => {
+    setEmployee({ ...employee, [e.target.name]: e.target.value });
+    await loadDepartmentList(employee.facultyId);
+  };
   const onDataSubmit = async (e) => {
     e.preventDefault();
     const result = await axios.post("http://localhost:8080/employee", employee);
@@ -70,18 +87,31 @@ export default function AddEmployee() {
                 value={employee.email}
                 onChange={(e) => onInputChange(e)}
               ></input>
+              <div>
+                <label>Select a Faculty:</label>
+                <select className="btn btn-secondary dropdown-toggle" name='facultyId' value={employee.facultyId}
+                  onChange={(e) => onFacultyChange(e)}>
+                  <option value="">Select an option</option>
+                  {faculties.map((faculty) => (
+                    <option key={faculty.id} name='facultyId' value={faculty.id}>
+                      {faculty.facultyName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
 
-              <label>Select a Faculty:</label>
-              <select name='facultyId' value={employee.facultyId}
-                onChange={(e) => onInputChange(e)}>
-                <option value="">Select an option</option>
-                {faculties.map((faculty) => (
-                  <option key={faculty.id} value={faculty.id}>
-                    {faculty.facultyName}
-                  </option>
-                ))}
-              </select>
-
+                <label>Select a Department:</label>
+                <select className="btn btn-secondary dropdown-toggle" name='departmentId' value={employee.departmentId}
+                  onChange={(e) => onInputChange(e)}>
+                  <option value="">Select an option</option>
+                  {departmentList.map((department) => (
+                    <option key={department.id} name='departmentId' value={department.id}>
+                      {department.departmentName}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <button type="submit" className="btn btn-outline-primary">
               Submit

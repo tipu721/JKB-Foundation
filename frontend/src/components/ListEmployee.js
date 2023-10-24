@@ -8,17 +8,25 @@ export default function ListEmployee() {
 
   const [employees, setEmployees] = useState([]);
   const [faculties, setFaculties] = useState([]);
+  const [departmentList, setepartmentList] = useState([]);
 
   useEffect(() => {
     loadEmployees();
     loadFaculties();
-    console.log("fire once");
+    loadDepartmentList();
   }, [])
 
   const loadEmployees = async () => {
     const result = await axios.get("http://localhost:8080/employees");
     setEmployees(result.data);
   }
+
+  const loadDepartmentList = async () => {
+    const result = await axios.get("http://localhost:8080/departmentList");
+    setepartmentList(result.data);
+  }
+
+
   const deleteEmployee = async (id) => {
 
     await axios.delete(`http://localhost:8080/employee/${id}`);
@@ -29,6 +37,7 @@ export default function ListEmployee() {
     const result = await axios.get("http://localhost:8080/faculties");
     setFaculties(result.data);
   }
+
   return (
     <div className="container">
       <div className="py-4">
@@ -39,6 +48,7 @@ export default function ListEmployee() {
               <th scope="col">Last Name</th>
               <th scope="col">Email</th>
               <th scope="col">Faculty Name</th>
+              <th scope="col">Department Name</th>
             </tr>
           </thead>
           <tbody>
@@ -47,7 +57,8 @@ export default function ListEmployee() {
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
-                <td>{faculties.find(item => item.id == employee.facultyId)?.facultyName}</td>
+                <td>{faculties.find(item => item.id === employee.facultyId)?.facultyName}</td>
+                <td>{departmentList.find(item => item.id === employee.departmentId)?.departmentName}</td>
                 <td>
                   <Link
                     className="btn btn-primary mx-2"
