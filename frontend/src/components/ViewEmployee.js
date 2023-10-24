@@ -26,8 +26,8 @@ export default function ViewEmployee() {
             await loadFaculty();
         }
         catch {
-            if (faculty.facultyName == null)
-                faculty.facultyName = "";
+
+            faculty.facultyName = "";
         }
     }
     let fId;
@@ -39,7 +39,6 @@ export default function ViewEmployee() {
 
     }
     const loadFaculty = async () => {
-        loadEmployee();
         console.log(fId);
         const result = await axios.get(`http://localhost:8080/faculty/${fId}`);
         setFaculty(result.data);

@@ -3,23 +3,31 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function EditEmployee() {
-    const [employee, setEmployee] = useState({
-        firstName: "",
-        lastName: "",
-        email: ""
-    });
 
     const { id } = useParams();
     let navigate = useNavigate();
 
+    const [employee, setEmployee] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        facultyId: ""
+    });
+    const [faculties, setFaculties] = useState([]);
 
     useEffect(() => {
         loadEmployee();
+        loadFaculties();
     }, []);
+
+    const loadFaculties = async () => {
+        const result = await axios.get("http://localhost:8080/faculties");
+        setFaculties(result.data);
+    }
+
     const loadEmployee = async () => {
         const result = await axios.get(`http://localhost:8080/employee/${id}`);
         setEmployee(result.data);
-
     }
 
     const onInputChange = (e) => {
@@ -70,6 +78,17 @@ export default function EditEmployee() {
                                 value={employee.email}
                                 onChange={(e) => onInputChange(e)}
                             ></input>
+
+                            <label>Select a Faculty:</label>
+                            <select name='facultyId' value={employee.facultyId}
+                                onChange={(e) => onInputChange(e)}>
+                                <option value="">Select an option</option>
+                                {faculties.map((faculty) => (
+                                    <option key={faculty.id} value={faculty.id}>
+                                        {faculty.facultyName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <button type="submit" className="btn btn-outline-primary">
