@@ -7,22 +7,27 @@ import { Link, useParams } from 'react-router-dom';
 export default function ListEmployee() {
 
   const [employees, setEmployees] = useState([]);
-
+  const [faculties, setFaculties] = useState([]);
 
   useEffect(() => {
     loadEmployees();
+    loadFaculties();
+    console.log("fire once");
   }, [])
 
   const loadEmployees = async () => {
     const result = await axios.get("http://localhost:8080/employees");
     setEmployees(result.data);
   }
-
   const deleteEmployee = async (id) => {
 
     await axios.delete(`http://localhost:8080/employee/${id}`);
     loadEmployees();
 
+  }
+  const loadFaculties = async () => {
+    const result = await axios.get("http://localhost:8080/faculties");
+    setFaculties(result.data);
   }
   return (
     <div className="container">
@@ -33,6 +38,7 @@ export default function ListEmployee() {
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Faculty Name</th>
             </tr>
           </thead>
           <tbody>
@@ -41,6 +47,7 @@ export default function ListEmployee() {
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
+                <td>{faculties.find(item => item.id == employee.facultyId)?.facultyName}</td>
                 <td>
                   <Link
                     className="btn btn-primary mx-2"

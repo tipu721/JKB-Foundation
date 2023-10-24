@@ -11,7 +11,7 @@ export default function AddEmployee() {
     firstName: "",
     lastName: "",
     email: "",
-    faculty: ""
+    facultyId: ""
   });
 
   const [faculties, setFaculties] = useState([]);
@@ -70,19 +70,18 @@ export default function AddEmployee() {
                 value={employee.email}
                 onChange={(e) => onInputChange(e)}
               ></input>
-              <label htmlFor="Department">Select a Department    </label>
-              <select
-                className='btn-secondary dropdown-toggle'
-                name="department"
-                value={employee.faculty}
+
+              <label>Select a Faculty:</label>
+              <select name='facultyId' value={employee.facultyId}
                 onChange={(e) => onInputChange(e)}>
-                <option value="">Select a Faculty</option>
+                <option value="">Select an option</option>
                 {faculties.map((faculty) => (
                   <option key={faculty.id} value={faculty.id}>
-                    {faculty.facutiName}
+                    {faculty.facultyName}
                   </option>
                 ))}
               </select>
+
             </div>
             <button type="submit" className="btn btn-outline-primary">
               Submit
@@ -93,7 +92,7 @@ export default function AddEmployee() {
 
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }

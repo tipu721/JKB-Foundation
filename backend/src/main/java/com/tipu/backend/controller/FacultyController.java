@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -19,6 +20,10 @@ public class FacultyController {
         return  "Faculty Added Successfully";
     }
 
+    @GetMapping("/faculty/{id}")
+    Optional<Faculty> GetFaculty(@PathVariable Integer id){
+        return facultyRepo.findById(id);
+    }
     @GetMapping("/faculties")
     List<Faculty> getFacultiList(){
         return facultyRepo.findAll();

@@ -2,7 +2,6 @@ package com.tipu.backend.model;
 
 import jakarta.persistence.*;
 
-@Table
 @Entity
 public class Employee {
 
@@ -13,7 +12,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-    private String department;
+    private String facultyId;
 
     public long getId() {
         return id;
@@ -47,11 +46,11 @@ public class Employee {
         this.email = email;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getFacultyId() {
+        return facultyId;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setFacultyId(String facultyId) {
+        this.facultyId = facultyId;
     }
 }

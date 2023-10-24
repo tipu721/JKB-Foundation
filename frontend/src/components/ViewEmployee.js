@@ -6,17 +6,43 @@ export default function ViewEmployee() {
     const [employee, setEmployee] = useState({
         firstName: "",
         lastName: "",
-        email: ""
+        email: "",
+        facultyId: ""
+    });
+    const [faculty, setFaculty] = useState({
+
+        facultyName: ""
     });
 
     const { id } = useParams();
     useEffect(() => {
-        loadEmployee();
+        loadData();
     }, []);
 
+    const loadData = async () => {
+
+        try {
+            await loadEmployee();
+            await loadFaculty();
+        }
+        catch {
+            if (faculty.facultyName == null)
+                faculty.facultyName = "";
+        }
+    }
+    let fId;
     const loadEmployee = async () => {
         const result = await axios.get(`http://localhost:8080/employee/${id}`);
+        const emp = result.data;
+        fId = emp.facultyId;
         setEmployee(result.data);
+
+    }
+    const loadFaculty = async () => {
+        loadEmployee();
+        console.log(fId);
+        const result = await axios.get(`http://localhost:8080/faculty/${fId}`);
+        setFaculty(result.data);
     }
     return (
         <div className="container">
@@ -42,8 +68,8 @@ export default function ViewEmployee() {
                                     {employee.email}
                                 </li>
                                 <li className="list-group-item">
-                                    <b>Department: </b>
-                                    {employee.department}
+                                    <b>Faculty: </b>
+                                    {faculty.facultyName}
                                 </li>
                             </ul>
                         </div>
