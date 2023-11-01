@@ -12,14 +12,27 @@ export default function AddEmployee() {
     lastName: "",
     email: "",
     facultyId: "",
-    departmentId: ""
+    departmentId: "",
+    courseList: [
+      { name: 'Math' },
+      { name: 'Science' },
+      { name: 'History' }
+      // Add more courses as needed
+    ]
   });
-
   const [faculties, setFaculties] = useState([]);
   const [departmentList, setdepartmentList] = useState([]);
+
   useEffect(() => {
     loadFaculties();
+    if (employee.facultyId > 0)
+      loadDepartmentList(employee.facultyId);
   }, [])
+
+  useEffect(() => {
+    if (employee.facultyId > 0)
+      loadDepartmentList(employee.facultyId);
+  }, [employee.facultyId])
 
   const loadFaculties = async () => {
     const result = await axios.get("http://localhost:8080/faculties");
@@ -27,7 +40,6 @@ export default function AddEmployee() {
   }
 
   const loadDepartmentList = async (facultyId) => {
-    console.log(facultyId);
     const result = await axios.get("http://localhost:8080/departmentList", {
       params: {
         facultyId: facultyId
@@ -40,16 +52,18 @@ export default function AddEmployee() {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
 
-  const onFacultyChange = async (e) => {
+  const onFacultyChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
-    await loadDepartmentList(employee.facultyId);
   };
+
+
   const onDataSubmit = async (e) => {
     e.preventDefault();
     const result = await axios.post("http://localhost:8080/employee", employee);
     navigate("/");
 
   }
+
 
   return (
     <div className='container'>
@@ -100,11 +114,9 @@ export default function AddEmployee() {
                 </select>
               </div>
               <div>
-
                 <label>Select a Department:</label>
                 <select className="btn btn-secondary dropdown-toggle" name='departmentId' value={employee.departmentId}
                   onChange={(e) => onInputChange(e)}>
-                  <option value="">Select an option</option>
                   {departmentList.map((department) => (
                     <option key={department.id} name='departmentId' value={department.id}>
                       {department.departmentName}
@@ -112,6 +124,7 @@ export default function AddEmployee() {
                   ))}
                 </select>
               </div>
+
             </div>
             <button type="submit" className="btn btn-outline-primary">
               Submit
@@ -119,7 +132,6 @@ export default function AddEmployee() {
             <Link className="btn btn-outline-danger mx-2" to="/">
               Cancel
             </Link>
-
           </form>
         </div>
       </div >

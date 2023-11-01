@@ -5,6 +5,7 @@ import com.tipu.backend.model.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +20,20 @@ public class DepartmentController {
         return departmentRepo.save(department);
     }
 
+
     @GetMapping("/departmentList")
-    List<Department> getDepartmentList(@RequestParam Integer facultyId){
-        List<Department>departmentList = departmentRepo.findAll();
-        List<Department>newList = new ArrayList<>();
-        for(Department department:departmentList){
-            if(department.getFacultyId().equals(facultyId))
-                newList.add(department);
+    List<Department> getDepartmentList(@RequestParam(required = false) Integer facultyId ){
+        if(facultyId == null){
+
+            return departmentRepo.findAll();
+        }
+        else{
+
+            return departmentRepo.findByFacultyId(facultyId);
 
         }
-        return newList;
+
     }
 }
+
+

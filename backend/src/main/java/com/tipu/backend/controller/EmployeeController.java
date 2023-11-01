@@ -1,7 +1,10 @@
 package com.tipu.backend.controller;
 
+import com.tipu.backend.dao.CourseRepository;
 import com.tipu.backend.dao.EmployeeRepository;
+import com.tipu.backend.model.Course;
 import com.tipu.backend.model.Employee;
+import com.tipu.backend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +19,19 @@ public class EmployeeController {
 
     @Autowired
     EmployeeRepository employeeRepository;
+    
+    @Autowired
+    CourseRepository courseRepository;
+
+    @Autowired
+    EmployeeService employeeService;
 
     @PostMapping("/employee")
-    Employee addEmployee(@RequestBody Employee employee) {
-
-        return employeeRepository.save(employee);
+    Employee addEmployee(@RequestBody Employee reqemp) {
+        
+        Employee employee = employeeRepository.save(reqemp);
+        employee.setCourseList(employeeService.saveCourseList(reqemp));
+        return employee;
     }
 
     @GetMapping("/employees")

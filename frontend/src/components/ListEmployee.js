@@ -26,16 +26,16 @@ export default function ListEmployee() {
     setepartmentList(result.data);
   }
 
+  const loadFaculties = async () => {
+    const result = await axios.get("http://localhost:8080/faculties");
+    setFaculties(result.data);
+  }
 
   const deleteEmployee = async (id) => {
 
     await axios.delete(`http://localhost:8080/employee/${id}`);
     loadEmployees();
 
-  }
-  const loadFaculties = async () => {
-    const result = await axios.get("http://localhost:8080/faculties");
-    setFaculties(result.data);
   }
 
   return (
@@ -57,8 +57,8 @@ export default function ListEmployee() {
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
-                <td>{faculties.find(item => item.id === employee.facultyId)?.facultyName}</td>
-                <td>{departmentList.find(item => item.id === employee.departmentId)?.departmentName}</td>
+                <td>{faculties.find(item => item.id == employee.facultyId)?.facultyName}</td>
+                <td>{departmentList.find(item => item.id == employee.departmentId)?.departmentName}</td>
                 <td>
                   <Link
                     className="btn btn-primary mx-2"

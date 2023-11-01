@@ -2,6 +2,10 @@ package com.tipu.backend.model;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -15,6 +19,9 @@ public class Employee {
     private String email;
     private Integer facultyId;
     private Integer departmentId;
+
+    @OneToMany
+    private List<Course>courseList;
 
     public long getId() {
         return id;
@@ -62,5 +69,13 @@ public class Employee {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 }
